@@ -106,6 +106,10 @@ class Processor implements ContentProcessorInterface
 
             gc_disable();
             $parser->parseFile($tmpFilePath, '');
+            $aCustomVars = $this->customVars();
+            if (!empty($aCustomVars)) {
+                $parser->ModifyVars($aCustomVars);
+            }
             $content = $parser->getCss();
             gc_enable();
 
@@ -119,5 +123,9 @@ class Processor implements ContentProcessorInterface
         } catch (\Exception $e) {
             throw new ContentProcessorException(new Phrase($e->getMessage()));
         }
+    }
+
+    public function customVars() {
+        return [];
     }
 }
